@@ -1254,8 +1254,10 @@ public class HTTPHC4Impl extends HTTPHCAbstractImpl {
                         getDoBrowserCompatibleMultipart(), charset, haveContentEncoding);
             }
             // Write the request to our own stream
-            MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create()
-                    .setCharset(charset);
+            MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+            if(haveContentEncoding) {
+                multipartEntityBuilder.setCharset(charset);
+            }
             if(getDoBrowserCompatibleMultipart()) {
                 multipartEntityBuilder.setLaxMode();
             } else {
@@ -1269,7 +1271,12 @@ public class HTTPHC4Impl extends HTTPHCAbstractImpl {
                 if (arg.isSkippable(parameterName)) {
                     continue;
                 }
-                StringBody stringBody = new StringBody(arg.getValue(), ContentType.create("text/plain", charset));
+                StringBody stringBody;
+                if(haveContentEncoding) {
+                    stringBody = new StringBody(arg.getValue(), ContentType.create("text/plain", charset));
+                } else {
+                    stringBody = new StringBody(arg.getValue(), ContentType.create("text/plain"));
+                }
                 FormBodyPart formPart = FormBodyPartBuilder.create(
                         parameterName, stringBody).build();
                 multipartEntityBuilder.addPart(formPart);
