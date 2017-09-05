@@ -158,6 +158,8 @@ public class ProxyControl extends GenericController {
     private static final String SAMPLER_DOWNLOAD_IMAGES = "ProxyControlGui.sampler_download_images"; // $NON-NLS-1$
     
     private static final String PREFIX_HTTP_SAMPLER_NAME = "ProxyControlGui.proxy_prefix_http_sampler_name"; // $NON-NLS-1$
+    
+    private static final String PROXY_PAUSE_HTTP_SAMPLER = "ProxyControlGui.proxy_pause_http_sampler"; // $NON-NLS-1$
 
     private static final String REGEX_MATCH = "ProxyControlGui.regex_match"; // $NON-NLS-1$
 
@@ -185,8 +187,7 @@ public class ProxyControl extends GenericController {
     private static final String SAMPLER_TYPE_HTTP_SAMPLER_HC3_1 = "1";
     private static final String SAMPLER_TYPE_HTTP_SAMPLER_HC4 = "2";
 
-    private static final long SAMPLE_GAP =
-        JMeterUtils.getPropDefault("proxy.pause", 5000); // $NON-NLS-1$
+    private static long SAMPLE_GAP;// $NON-NLS-1$
     // Detect if user has pressed a new link
 
     // for ssl connection
@@ -393,6 +394,10 @@ public class ProxyControl extends GenericController {
         setProperty(PREFIX_HTTP_SAMPLER_NAME, prefixHTTPSampleName);
     }
 
+    public void setProxyPauseHTTPSample(String proxyPauseHTTPSample) {
+        setProperty(PROXY_PAUSE_HTTP_SAMPLER, proxyPauseHTTPSample);
+    }
+
     public void setNotifyChildSamplerListenerOfFilteredSamplers(boolean b) {
         notifyChildSamplerListenersOfFilteredSamples = b;
         setProperty(new BooleanProperty(NOTIFY_CHILD_SAMPLER_LISTENERS_FILTERED, b));
@@ -479,6 +484,10 @@ public class ProxyControl extends GenericController {
         return getPropertyAsString(PREFIX_HTTP_SAMPLER_NAME);
     }
 
+    public String getProxyPauseHTTPSample() {
+        return getPropertyAsString(PROXY_PAUSE_HTTP_SAMPLER);
+    }
+
     public boolean getNotifyChildSamplerListenerOfFilteredSamplers() {
         return getPropertyAsBoolean(NOTIFY_CHILD_SAMPLER_LISTENERS_FILTERED, true);
     }
@@ -519,6 +528,11 @@ public class ProxyControl extends GenericController {
         notifyTestListenersOfStart();
         try {
             server = new Daemon(getPort(), this);
+            if (getProxyPauseHTTPSample().isEmpty()) {
+                SAMPLE_GAP = JMeterUtils.getPropDefault("proxy.pause", 5000);
+            } else {
+                SAMPLE_GAP = Long.parseLong(getProxyPauseHTTPSample().trim());
+            }
             server.start();
             if (GuiPackage.getInstance() != null) {
                 GuiPackage.getInstance().register(server);
