@@ -103,6 +103,9 @@ Incorporated feed back about unclear documentation.
 <ul>
     <li><bug>61320</bug>Test Action : Set duration to <code>0</code> by default</li>
     <li>JDBC Connection Configuration : Set Max Number of Connections to <code>0</code> by default</li>
+    <li>JDBC Connection Configuration : Set "Validation Query" to <code>empty</code> by default to use isValid method of JDBC driver</li>
+    <li>JDBC Connection Configuration : Add a list for main databases validation queries for "Validation Query" attribute</li>
+    <li>JDBC Connection Configuration : Add a list for main databases JDBC driver class name for "JDBC Driver class" attribute</li>
 </ul>
 
 <h3>Controllers</h3>
@@ -136,6 +139,7 @@ Incorporated feed back about unclear documentation.
 
 <h3>Report / Dashboard</h3>
 <ul>
+    <li><bug>61481</bug>Help Menu Item to export transaction for Web report</li>
 </ul>
 
 <h3>General</h3>
@@ -207,6 +211,7 @@ Incorporated feed back about unclear documentation.
 <ul>
     <li><bug>61258</bug>StringFromFile function is mentioned twice in the Function helper dialog</li>
     <li><bug>61260</bug><code><funclink name="__XPath"/></code> function returns null despite xpath checker founds matches</li>
+    <li><bug>58876</bug>TestPlanName function returns null for a newly saved Test Plan and uses previously opened one for a new one</li>
 </ul>
 
 <h3>I18N</h3>
@@ -235,6 +240,7 @@ Incorporated feed back about unclear documentation.
     <li><bug>61292</bug>Make processing of samples in reporter more robust.</li>
     <li><bug>61359</bug>When cutting an element from Tree, Test plan is not marked as dirty</li>
     <li><bug>61380</bug>JMeter shutdown using timers releases thundering herd of interrupted samplers</li>
+    <li><bug>57055</bug>CheckDirty.doAction should clear previousGuiItems for SUB_TREE_SAVED</li>
 </ul>
 
  <!--  =================== Thanks =================== -->
