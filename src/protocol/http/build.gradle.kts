@@ -70,6 +70,7 @@ dependencies {
         // We don't really need to use/distribute jsr305
         exclude("com.google.code.findbugs", "jsr305")
     }
+    implementation("de.sstoehr:har-reader")
     implementation("dnsjava:dnsjava")
     implementation("org.apache.httpcomponents:httpmime")
     implementation("org.apache.httpcomponents:httpcore")
